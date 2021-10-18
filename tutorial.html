@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data visualization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Data Visualization Tutorial Using Seaborn</h1>
+    <div class="intro">
+        <p>
+            In order to plot data we first have to  set up the plotting environment, select a dataset,
+            load the data set and finally examine the data set
+        </p>
+        <div class="ctbe"> <!--ctbe - code to be executed-->
+            #Set up the environment
+            import pandas as pd
+            import seaborn as sns
+            import matplotlib.pyplot as plt
+        </div>
+        <p>After setting up the environment we now have to select and load the dataset</p>
+        <div class="ctbe">
+            #select dataset
+            filepath = "filename.csv"
+             
+            #load dataset
+            #The index_col is used to set the index column or the first column.
+            filename_data = pd.read_csv(filepath, index_col='index')
+        </div>
+        <p>In order to examine the dataset we use may use the codes below</p>
+        <div class="ctbe">
+            #Examine the dataset
+            #To prints the first five rows of data;
+            filename_data.head()
+
+            or
+            # To print a specified number of rows we use n = no.of rows;
+            filename_data.head(n=7) 
+
+            or
+
+            # To print the last five rows;
+            filename_data.tail()
+
+            or
+
+            #To print a specific number of last rows use n = no. of rows;
+            filename_data.tail(n=8)
+
+            # To prints the whole dataset if its small; 
+            filename_data
+        </div>
+    </div>
+    
+                        <!--###########LINECHARTS################-->
+    <h2>Linecharts</h2>
+    <div class="linecharts">
+        <p>To plot data using lineplot we use the code</p>
+        
+        <div class="important">
+            <code>
+                sns.lineplot(data=filename_data)
+            </code>
+        </div>
+        
+        <p>To improve the graph appearance,</p>
+
+        <div class="ctbe">
+            #Set figure width and height respectively, 
+            #(the size is in inches)
+            plt.figure(figsize=(5,5))
+
+            #Add title,
+            plt.title('Title')
+
+            #To plot the figure;
+            sns.lineplot(data=filename_data)
+        </div>
+
+       <p>We print all columns using the line of code below;</p>
+
+       <div class="important">
+           <code>
+               list(filename_data.columns)
+            </code>
+        </div>
+
+        <p>To plot a subset of data we use the name of the column we want to plot;</p>
+
+        <div id="plot">
+            <code>
+                sns.lineplot(data=filename_data['column_name'], label='column name')
+                sns.lineplot(data=filename_data['different_column_name'], label='different column name')
+            </code>
+        </div>
+
+        <p>The code block below is a summary of the lines of code to make a good lineplot;</p>
+
+        <div class="block">
+            <code>
+                    plt.figure(figsize=(10, 7))
+                    plt.title('Title')
+                    plt.xlabel('Xlabel')
+                    plt.ylabel('Ylabel')
+
+                    #For the whole dataset
+                    sns.lineplot(data=filename_data)
+
+                    #For a subset
+                    sns.lineplot(data=filename_data['column_name'], label="column name")
+            </code>
+        </div>
+    </div>
+       <!-- ########BAR CHARTS AND HEATMAPS###############-->
+    <h2>Bar charts and Heatmaps</h2>
+    <div class="barmap">
+        <h3>Barplot</h3>
+        <p>To plot a barplot, the code below is used and manipulated to grant the users wishes;</p>
+        <div class="important">
+            <code>sns.barplot(x=filename_data.index,  y=filename_data['column_name'])</code>
+        </div>
+        <h3>Heatmaps</h3>
+        <p>
+            For a heatmap the code below is used. The annot= True displays the numbers in the heatmap. 
+            If annot is set to False then the numbers will not be displayed in the heatmap.
+        </p>
+        <div class="important">
+            <code>sns.heatmap(data=filename_data, annot=True)</code>
+        </div>
+    </div>
+
+    <!--##############SCATTER PLOTS###############-->
+    <h2>Scatter Plots</h2>
+    <div class="scatterplot">
+        <h3>Simple scatter plot</h3>
+        <p>For a simple scatterplot, we use the code below</p>
+        <div class="important">
+            <code>
+                sns.scatterplot(x=filename_data['col_name'], y=filename_data['column_name'])
+            </code>
+        </div>
+
+        <h3>Regression line</h3>
+        <p>To add a regression line to the scatter plot we use the code below</p>
+        <div class="important">
+            <code>
+                sns.regplot(x=filename_data['col_name'], y=filename_data['column_name'])
+            </code>
+        </div>
+
+        <h3>Color-coded scatter plots</h3>
+        <p>They display relationship between three variables. An example of the code is shown below</p>
+        <div class="important">
+            <code>
+                sns.scatterplot(x=filename_data['col_name'], y=filename_data['column_name'], hue=filename_data['column'])
+            </code>
+        </div>
+        <p>To have two regression lines for a scatter plot use the code below</p>
+        <div class="important">
+            <code>
+                sns.lmplot(x='col_name', y='column_name', hue='another_column', data=filename_data)
+            </code>
+        </div>
+
+        <h3>Categorical scatter plot</h3>
+        <p>Categorical data is plotted using the command below</p>
+        <div class="important">
+            <code>
+                sns.swarmplot(x=filename_data['col_name'], y=filename_data['column_name'])
+            </code>
+        </div>
+    </div>
+
+    <!--################### DISTRIBUTIONS ###########-->
+    <h2>Distribution Plots</h2>
+    <div class="distribution">
+        <h3>Histograms</h3>
+        <p>
+            To plot a histogram the command below is used.
+            kde has to be provided with its value as false in order to create a histogram.
+        </p>
+        <div class="important">
+            <code>
+                sns.distplot(a=filename_data['col_name'], kde=False)
+            </code>
+        </div>
+
+        <h3>Density Plots</h3>
+        <p>
+            Kernel density estimate(KDE) can be thought of as smoothened histograms.
+            The code below is used to produce a kde plot. Setting the shade to true colors the region 
+            below the curve.
+         </p>
+         <div class="important">
+             <code>
+                 sns.kdeplot(data=filename_data['col_name'], shade=True)
+             </code>
+         </div>
+
+         <h3>2D KDE plot</h3>
+         <p> A 2D kde plot can be created using the line of code below</p>
+         <div class="important">
+             <code>
+                 sns.joinplot(x=filename_data['col_name'], y=filename_data['column_data'], kind="kde")
+             </code>
+         </div>
+
+         <h3>Combined Histogram</h3>
+         <p>To plot a combined histogram, load all data sets you want to plot</p>
+         <div class="important">
+             <code>
+                 sns.distplot(a=filename_data['column_name'], label='column_label',kde=False)
+                 sns.distplot(a=filename_data['different_column_name'], label='diff_label',kde=False)
+                 sns.distplot(a=filename_data['new_column_name'], label='new_label',kde=False)
+                 <br>
+                 #To force the legend to appear,
+                 <br>
+                 plt.legend()
+             </code>
+         </div>
+
+         <h3>Combined Kdeplot</h3>
+         <p>To plot a combined histogram, load all data sets you want to plot</p>
+         <div class="important">
+             <code>
+                 sns.kdeplot(data=filename_data['column_name'], label='column_label', shade=True)
+                 sns.kdeplot(data=filename_data['different_column_name'], label='diff_label', shade=True)
+                 sns.kdeplot(data=filename_data['new_column_name'], label='new_label', shade=True)
+             </code>
+         </div>         
+    </div>
+
+
+    <h3>Styling the graph</h3>
+    <div class="custom-style">
+        <p>To style the graph, we use the command below</p>
+        <div class="important">
+            <code>
+                sns.setstyle("desired style")
+            </code>
+        </div>
+        <p>
+            The desired style in seaborn has the following five different values
+            <li>darkgrid</li>
+            <li>whitegrid</li>
+            <li>dark</li>
+            <li>white</li>
+            <li>ticks</li>
+        </p>
+    </div>
+    <footer>
+        <p>
+            A detailed tutorial of the above summary can be found on kaggle or visit this 
+            <a href="https://www.kaggle.com/learn/data-visualization">link</a>
+        </p>
+        <p>Summary by Stephen Chege</p>
+    </footer>
+</body>
+</html>
